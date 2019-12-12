@@ -29,19 +29,17 @@ let done = document.querySelector('#done');
 let renderTodoList = ()=>{
     todosEl.innerHTML= '';
     done.innerHTML = ' ';
-let notDone1 = todos.filter((obj,index)=>obj.completed===false).map((item)=>`${item.description}`).sort();
-//let notDone1 = todos.filter((obj,index)=>obj.completed===false).map((item)=>`<li>${item.description}`</li>).sort();
-
+let notDone1 = todos.filter((obj)=>obj.completed===false).map((item)=>`${item.description}`).sort();
+//let notDone1 = todos.filter((obj,index)=>obj.completed===false).map((item)=>`<li>${item.description}</li>`).sort();
 //todosEl.innerHTML= notDone1.join(' ');
-notDone1.forEach((obj1)=>{
+notDone1.forEach((obj1, index)=>{
     let notdoneEl = document.createElement('li');
         notdoneEl.innerText= obj1;
         todosEl.append(notdoneEl);
 })
 
-let donethings = todos.filter((obj,index)=>obj.completed===true).map((item)=>`${item.description}`).sort();
+let donethings = todos.filter((obj)=>obj.completed===true).map((item)=>`${item.description}`).sort();
 //let donethings = todos.filter((obj,index)=>obj.completed===true).map((item)=>`<li>${item.description}`</li>).sort();
-
 //done.innerHTML= donethings.join(' ');
     donethings.forEach((obj2)=>{
         let doneEl = document.createElement('li');
@@ -56,23 +54,29 @@ renderTodoList();
 
 // Add click handler for updating completed status
 todosEl.addEventListener('click', function(e) {
-	if (e.target.tagName === "LI") {
-		// update completed status for this todo item
-		todos.forEach(function(todo) {
-			if (todo.description === e.target.innerText) {
-				if (todo.completed) {
-					todo.completed = false;
-				} else {
-					todo.completed = true;
-				}
-				// shorthand of above if-statement
-				// todo.completed = !todo.completed;
 
-				// render the updated todo list to DOM
-                renderTodoList();
-			}
-		});
-	}
+let findEl = todos.find((item)=>item.description === e.target.innerText);
+   findEl.completed= true;
+   renderTodoList();
+
+
+	// if (e.target.tagName === "LI") {
+	// 	// update completed status for this todo item
+	// 	todos.forEach(function(todo) {
+	// 		if (todo.description === e.target.innerText) {
+	// 			if (todo.completed) {
+	// 				todo.completed = false;
+	// 			} else {
+	// 				todo.completed = true;
+	// 			}
+	// 			// shorthand of above if-statement
+	// 			// todo.completed = !todo.completed;
+
+	// 			// render the updated todo list to DOM
+    //             renderTodoList();
+	// 		}
+	// 	});
+	// }
 });
 
 
@@ -84,8 +88,9 @@ createNewTodoButton.addEventListener('click', function() {
 	let newTodo = {
 		description: text,
 		completed: false
-	}
-
+    }
+    
+    
 	todos.push(newTodo);
 
 	// render the updated todo list to DOM
